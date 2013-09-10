@@ -11,14 +11,7 @@ namespace Meltdown.Core
     {
         static void Main(string[] args)
         {
-            MainConsole console = MainConsole.Instance;
-            console.Color = Color.Red;
-            console.Write(0, 0, "RED");
-            console.Color = Color.Yellow;
-            console.Write(3, 0, "?!");
-            console.Refresh();
-            Console.ReadKey();
-
+            new InteractiveFictionGame().Start();
         }
     }
 }
