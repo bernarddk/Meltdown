@@ -1,0 +1,10 @@
+﻿{
+    "Name": "Meadow",
+    "Description": "Grassy green hills sprawl under a cloudless, azure-blue sky. Boring, isn't it?",
+    "Objects": [
+        {
+            "Name": "Rock",
+            "Description": "A smooth, flat grey pebble."
+        }
+    ]
+}

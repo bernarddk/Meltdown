@@ -11,7 +11,7 @@ namespace Meltdown.Core
     {
         static void Main(string[] args)
         {
-            new InteractiveFictionGame().Start();
+            new InteractiveFictionGame("Content.json").Start();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Meltdown.Core
     class InteractiveFictionGame
     {
         private MainConsole console = MainConsole.Instance;
-        private Area currentArea = new Area("Meadow", "You stand in a grassy meadow under azure-blue skies. Boring, I know. Now what?");
+        private Area currentArea;
 
         private IList<Command> knownCommands = new List<Command>()
         {
@@ -22,14 +22,20 @@ namespace Meltdown.Core
 
         private bool isRunning = true;
 
-        public InteractiveFictionGame()
+        public InteractiveFictionGame(string contentFile)
         {
             this.SetupCommands();
             this.unknownCommand = knownCommands.First(c => c.Name.ToLower() == "unknown");
+
+            string contents = System.IO.File.ReadAllText(contentFile);
+            this.currentArea = Newtonsoft.Json.JsonConvert.DeserializeObject<Area>(contents);
         }
 
         public void Start()
-        {            
+        {
+            // Show the intro. Room. Area.
+            this.ProcessInput("l");
+
             string input = this.ShowPrompt();
             while (this.isRunning)
             {
@@ -43,7 +49,7 @@ namespace Meltdown.Core
 
         private void ProcessInput(string input)
         {
-            console.Color = Color.DarkBlue;
+            console.Color = Color.DarkCyan;
             string[] text = input.Split(new char[] { ' ' });
             string commandText = (text.Length > 0 ? text[0] : "");
 
@@ -53,7 +59,12 @@ namespace Meltdown.Core
                 command = unknownCommand;
             }
 
-            console.WriteLine(command.Invoke());
+            string content = command.Invoke();
+            if (content != "")
+            {
+                console.WriteLine(content);
+            }
+            console.WriteLine();
             
             console.Refresh();
         }
@@ -116,7 +127,18 @@ namespace Meltdown.Core
             // All system commands so far
             this.knownCommands.Add(new Command("Look", new string[] { "l", "look" }, () =>
             {
-                return string.Format("You are standing in {0}.\n\n{1}", currentArea.Name, currentArea.Description);
+                console.Color = Color.Cyan;
+                console.WriteLine(currentArea.Name);
+                console.Color = Color.DarkCyan;
+                console.WriteLine(currentArea.Description);
+                console.WriteLine();
+
+                foreach (InteractiveObject o in currentArea.Objects)
+                {
+                    console.WriteLine(string.Format("You see a {0} here.", o.Name.ToLower()));
+                }
+
+                return "";
             }));
         }
     }
