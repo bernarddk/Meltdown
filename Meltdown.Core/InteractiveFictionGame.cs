@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ConsoleX;
-using Meltdown.Core.Core;
+using Meltdown.Core.Model;
 
 namespace Meltdown.Core
 {
@@ -11,10 +11,11 @@ namespace Meltdown.Core
     {
         private MainConsole console = MainConsole.Instance;
         private Area currentArea;
+        private Player player = new Player();
 
         private IList<Command> knownCommands = new List<Command>()
         {
-            new Command("Unknown", new string[0], () => {
+            new Command("Unknown", new string[0], (t, i, p) => {
                 return "Not sure how to do that.";
             })            
         };
@@ -59,7 +60,21 @@ namespace Meltdown.Core
                 command = unknownCommand;
             }
 
-            string content = command.Invoke();
+            string content = "";
+            if (text.Length == 1)
+            {
+                content = command.Invoke();
+            } else if (text.Length == 2)
+            {
+                // <command> <target>
+                content = command.Invoke(text[1]);
+            }
+            else if (text.Length == 4)
+            {
+                // <command> <target> <preposition> <instrument>
+                content = command.Invoke(text[1], text[3], text[2]);
+            }
+
             if (content != "")
             {
                 console.WriteLine(content);
@@ -118,14 +133,14 @@ namespace Meltdown.Core
 
         private void SetupSystemCommands()
         {
-            this.knownCommands.Add(new Command("Quit", new string[] { "q", "quit" }, () =>
+            this.knownCommands.Add(new Command("Quit", new string[] { "q", "quit" }, (t, i, p) =>
             {
                 isRunning = false;
                 return "Bye!";
             }));
 
             // All system commands so far
-            this.knownCommands.Add(new Command("Look", new string[] { "l", "look" }, () =>
+            this.knownCommands.Add(new Command("Look", new string[] { "l", "look" }, (t, i, p) =>
             {
                 console.Color = Color.Cyan;
                 console.WriteLine(currentArea.Name);
@@ -139,6 +154,52 @@ namespace Meltdown.Core
                 }
 
                 return "";
+            }));
+
+            // It'll always be a system command, even though you may override and not call the base method
+            this.knownCommands.Add(new Command("Get", new string[] { "get" }, (t, i, p) =>
+            {
+                if (t == "") {
+                    return "Get what?";
+                } else {
+                    // Find the object
+                    var found = this.currentArea.Objects.FirstOrDefault(o => o.Name.ToUpper() == t.ToUpper());
+                    if (found != null)
+                    {
+                        if (found.Affordances.Any(a => a.ToUpper() == "get".ToUpper()))
+                        {
+                            player.GetObject(found);
+                            this.currentArea.RemoveObject(found);
+                            return string.Format("Picked up {0}.", found.Name);
+                        }
+                        else
+                        {
+                            return string.Format("Can't pick {0} up.", found.Name);
+                        }
+                    }
+                    else
+                    {
+                        return string.Format("Can't find {0} here.", t);
+                    }
+                }
+            }));
+
+            this.knownCommands.Add(new Command("Inventory", new string[] { "inv", "i", "inventory" }, (t, i, p) =>
+            {
+                if (this.player.Inventory.Count == 0)
+                {
+                    return "You're not carrying anything right now.";
+                }
+                else
+                {
+                    StringBuilder toReturn = new StringBuilder();
+                    toReturn.Append("Inventory:\n");
+                    foreach (InteractiveObject o in this.player.Inventory)
+                    {
+                        toReturn.Append(string.Format("    {0}: {1}\n", o.Name, o.Description));
+                    }
+                    return toReturn.ToString();
+                }
             }));
         }
     }

@@ -44,10 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Area.cs" />
-    <Compile Include="Core\Command.cs" />
-    <Compile Include="Core\InteractiveObject.cs" />
+    <Compile Include="Model\Area.cs" />
+    <Compile Include="Command.cs" />
+    <Compile Include="Model\InteractiveObject.cs" />
     <Compile Include="InteractiveFictionGame.cs" />
+    <Compile Include="Model\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
