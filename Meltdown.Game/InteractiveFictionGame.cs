@@ -236,8 +236,8 @@ namespace Meltdown.Game
                 {
                     string fullPath = string.Format("{0}{1}", basePath, script);
                     string contents = System.IO.File.ReadAllText(fullPath);
-                    //var command = engine.Execute<Command>(contents, scope);
-                    engine.ExecuteFile(fullPath, scope);
+                    var command = engine.Execute<dynamic>(contents, scope);                    
+                    this.knownCommands.Add(command);
                 }
             }
         }
