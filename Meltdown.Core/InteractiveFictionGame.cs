@@ -2,21 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ConsoleX;
 using Meltdown.Core.Model;
 
 namespace Meltdown.Core
 {
     class InteractiveFictionGame
     {
-        private MainConsole console = MainConsole.Instance;
         private Area currentArea;
         private Player player = new Player();
 
         private IList<Command> knownCommands = new List<Command>()
         {
             new Command("Unknown", new string[0], (t, i, p) => {
-                return "Not sure how to do that.";
+                return "Can't do that.";
             })            
         };
         private Command unknownCommand;
@@ -50,7 +48,7 @@ namespace Meltdown.Core
 
         private void ProcessInput(string input)
         {
-            console.Color = Color.DarkCyan;
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
             string[] text = input.Split(new char[] { ' ' });
             string commandText = (text.Length > 0 ? text[0] : "");
 
@@ -77,20 +75,19 @@ namespace Meltdown.Core
 
             if (content != "")
             {
-                console.WriteLine(content);
+                Console.WriteLine(content);
             }
-            console.WriteLine();
-            
-            console.Refresh();
+
+            Console.WriteLine();
         }
 
         // Show the prompt and get some input. Input terminates with a newline ('\r').
         // Input is interactively drawn on-screen.
         private string ShowPrompt()
         {
-            console.Color = Color.Grey;
-            console.Write("> ");
-            console.Refresh();
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.Write("> ");
+            //console.Refresh();
 
             StringBuilder toReturn = new StringBuilder();
 
@@ -114,15 +111,17 @@ namespace Meltdown.Core
                 {
                     toReturn.Remove(toReturn.Length - 1, 1);
                 }
-                console.Backspace();
             }
             else
             {
                 toReturn.Append(next.KeyChar);
-                console.Write(next.KeyChar);
             }
-            console.Refresh();
 
+            if (next.Key == ConsoleKey.Enter)
+            {
+                Console.WriteLine();
+            }
+            
             return next;
         }
 
@@ -142,17 +141,17 @@ namespace Meltdown.Core
             // All system commands so far
             this.knownCommands.Add(new Command("Look", new string[] { "l", "look" }, (t, i, p) =>
             {
-                console.Color = Color.Cyan;
-                console.WriteLine(currentArea.Name);
-                console.Color = Color.DarkCyan;
-                console.WriteLine(currentArea.Description);
-                console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine(currentArea.Name);
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                Console.WriteLine(currentArea.Description);
+                Console.WriteLine();
 
                 foreach (InteractiveObject o in currentArea.Objects)
                 {
-                    console.WriteLine(string.Format("You see a {0} here.", o.Name.ToLower()));
+                    Console.WriteLine(string.Format("You see a {0} here.", o.Name.ToLower()));
                 }
-
+                
                 return "";
             }));
 
