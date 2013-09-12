@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Meltdown.Core")]
+[assembly: AssemblyTitle("Meltdown.Game")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Meltdown.Core")]
-[assembly: AssemblyCopyright("Copyright © Ashiq Alibhai 2013")]
+[assembly: AssemblyProduct("Meltdown.Game")]
+[assembly: AssemblyCopyright("Copyright © Ashiq ALibhai 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("1da4594c-7578-429b-8ee1-f16a563fce71")]
+[assembly: Guid("9cf1342c-7801-4ae1-a039-f66dc9a7de34")]
 
 // Version information for an assembly consists of the following four values:
 //

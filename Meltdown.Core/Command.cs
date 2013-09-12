@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace Meltdown.Core
 {
-    class Command
+    public class Command
     {
         public string Name { get; set; }
-        public IEnumerable<string> Verbs { get; private set; }
+        public string[] Verbs { get; private set; }
 
-        internal delegate string CommandAction(string target, string instrument, string preposition);
+        public delegate string CommandAction(string target, string instrument, string preposition);
         private CommandAction action;
 
-        public Command(string name, IEnumerable<string> verbs, CommandAction action)
+        public Command(string name, string[] verbs, CommandAction action)
         {
             this.Name = name;
             this.Verbs = verbs;

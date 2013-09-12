@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Meltdown.Core
+namespace Meltdown.Game
 {
     class Program
     {
         static void Main(string[] args)
         {
-            new InteractiveFictionGame("Content.json").Start();
+            new InteractiveFictionGame(@"Content\Content.json").Start();
         }
     }
 }

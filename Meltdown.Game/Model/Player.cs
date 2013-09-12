@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Meltdown.Core.Model
+namespace Meltdown.Game.Model
 {
     class Player
     {

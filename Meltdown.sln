@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meltdown.Core", "Meltdown.Core\Meltdown.Core.csproj", "{2722FD7A-AD1C-4BA4-9A5E-D75565C477E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meltdown.Game", "Meltdown.Game\Meltdown.Game.csproj", "{2722FD7A-AD1C-4BA4-9A5E-D75565C477E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleX", "..\ConsoleX\ConsoleX.csproj", "{59ABAEBE-7C4E-4479-AB18-52B71E97D559}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meltdown.Core", "Meltdown.Core\Meltdown.Core.csproj", "{FC2C0902-857C-45EF-93C1-6141307D66C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,10 @@ Global
 		{2722FD7A-AD1C-4BA4-9A5E-D75565C477E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2722FD7A-AD1C-4BA4-9A5E-D75565C477E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2722FD7A-AD1C-4BA4-9A5E-D75565C477E0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{59ABAEBE-7C4E-4479-AB18-52B71E97D559}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{59ABAEBE-7C4E-4479-AB18-52B71E97D559}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{59ABAEBE-7C4E-4479-AB18-52B71E97D559}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{59ABAEBE-7C4E-4479-AB18-52B71E97D559}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC2C0902-857C-45EF-93C1-6141307D66C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC2C0902-857C-45EF-93C1-6141307D66C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC2C0902-857C-45EF-93C1-6141307D66C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC2C0902-857C-45EF-93C1-6141307D66C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Meltdown.Core.Model;
+using IronRuby;
+using Meltdown.Game.Model;
+using Meltdown.Core;
 
-namespace Meltdown.Core
+namespace Meltdown.Game
 {
     class InteractiveFictionGame
     {
         private Area currentArea;
         private Player player = new Player();
 
-        private IList<Command> knownCommands = new List<Command>()
+        private List<dynamic> knownCommands = new List<dynamic>()
         {
             new Command("Unknown", new string[0], (t, i, p) => {
                 return "Can't do that.";
@@ -52,7 +54,23 @@ namespace Meltdown.Core
             string[] text = input.Split(new char[] { ' ' });
             string commandText = (text.Length > 0 ? text[0] : "");
 
-            Command command = knownCommands.FirstOrDefault(c => c.Verbs.Select(s => s.ToUpper()).Contains(commandText.ToUpper()));
+            //Command command = knownCommands.FirstOrDefault(c => c.Verbs.Select(s => s.ToUpper()).Contains(commandText.ToUpper()));
+            //Command command = knownCommands.FirstOrDefault(c => (c as Command).Verbs.Any(s => s.ToUpper() == commandText.ToUpper()));            
+            
+            dynamic command = null;
+            // Necessary because of typing from C# to Ruby. Blegh.
+            foreach (var c in this.knownCommands)
+            {
+                IEnumerable<string> verbs = c.GetType().GetProperty("Verbs").GetValue(c, null);
+                if (verbs.Any(v => v.ToUpper() == commandText.ToUpper())) {
+                    if (command == null) {
+                        command = c;
+                    } else {
+                        throw new Exception("There are two commands that respond to " + commandText);
+                    }
+                }
+            }            
+
             if (command == null)
             {
                 command = unknownCommand;
@@ -69,7 +87,7 @@ namespace Meltdown.Core
             }
             else if (text.Length == 4)
             {
-                // <command> <target> <preposition> <instrument>
+                // <command> <target> <instrument> <preposition>
                 content = command.Invoke(text[1], text[3], text[2]);
             }
 
@@ -128,6 +146,7 @@ namespace Meltdown.Core
         private void SetupCommands()
         {
             this.SetupSystemCommands();
+            this.LoadRubyCommands();
         }
 
         private void SetupSystemCommands()
@@ -200,6 +219,27 @@ namespace Meltdown.Core
                     return toReturn.ToString();
                 }
             }));
+        }
+
+        private void LoadRubyCommands()
+        {            
+            string[] files = System.IO.Directory.GetFiles(@"Content\Commands", "*.rb");
+            string basePath = AppDomain.CurrentDomain.BaseDirectory;
+
+            if (files.Length > 0)
+            {
+                var engine = Ruby.CreateEngine();
+                var scope = engine.Runtime.CreateScope();
+                scope.SetVariable("known_commands", this.knownCommands);
+
+                foreach (string script in files)
+                {
+                    string fullPath = string.Format("{0}{1}", basePath, script);
+                    string contents = System.IO.File.ReadAllText(fullPath);
+                    //var command = engine.Execute<Command>(contents, scope);
+                    engine.ExecuteFile(fullPath, scope);
+                }
+            }
         }
     }
 }
