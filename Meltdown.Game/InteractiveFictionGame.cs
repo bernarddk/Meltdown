@@ -4,14 +4,17 @@ using System.Linq;
 using System.Text;
 using IronRuby;
 using Meltdown.Game.Model;
+using Meltdown.Core.Model;
 using Meltdown.Core;
 
 namespace Meltdown.Game
 {
     class InteractiveFictionGame
     {
+        public Area CurrentArea { get { return this.currentArea; } }
+
         private Area currentArea;
-        private Player player = new Player();
+        private Player player = Player.Instance;
 
         private List<dynamic> knownCommands = new List<dynamic>()
         {
@@ -19,8 +22,8 @@ namespace Meltdown.Game
                 return "Can't do that.";
             })            
         };
-        private Command unknownCommand;
 
+        private Command unknownCommand;
         private bool isRunning = true;
 
         public InteractiveFictionGame(string contentFile)
@@ -56,16 +59,20 @@ namespace Meltdown.Game
 
             //Command command = knownCommands.FirstOrDefault(c => c.Verbs.Select(s => s.ToUpper()).Contains(commandText.ToUpper()));
             //Command command = knownCommands.FirstOrDefault(c => (c as Command).Verbs.Any(s => s.ToUpper() == commandText.ToUpper()));            
-            
-            dynamic command = null;
+                        
             // Necessary because of typing from C# to Ruby. Blegh.
+            dynamic command = null;
             foreach (var c in this.knownCommands)
             {
                 IEnumerable<string> verbs = c.GetType().GetProperty("Verbs").GetValue(c, null);
-                if (verbs.Any(v => v.ToUpper() == commandText.ToUpper())) {
-                    if (command == null) {
+                if (verbs.Any(v => v.ToUpper() == commandText.ToUpper()))
+                {
+                    if (command == null)
+                    {
                         command = c;
-                    } else {
+                    }
+                    else
+                    {
                         throw new Exception("There are two commands that respond to " + commandText);
                     }
                 }
@@ -77,13 +84,14 @@ namespace Meltdown.Game
             }
 
             string content = "";
+
             if (text.Length == 1)
             {
                 content = command.Invoke();
             } else if (text.Length == 2)
             {
                 // <command> <target>
-                content = command.Invoke(text[1]);
+                content = command.Invoke(text[1], "", "");
             }
             else if (text.Length == 4)
             {
@@ -177,8 +185,8 @@ namespace Meltdown.Game
             // It'll always be a system command, even though you may override and not call the base method
             this.knownCommands.Add(new Command("Get", new string[] { "get" }, (t, i, p) =>
             {
-                if (t == "") {
-                    return "Get what?";
+                if (t == null) {
+                    return "Get what? (Can't find that.)";
                 } else {
                     // Find the object
                     var found = this.currentArea.Objects.FirstOrDefault(o => o.Name.ToUpper() == t.ToUpper());
@@ -230,13 +238,15 @@ namespace Meltdown.Game
             {
                 var engine = Ruby.CreateEngine();
                 var scope = engine.Runtime.CreateScope();
-                scope.SetVariable("known_commands", this.knownCommands);
+                scope.SetVariable("game", this);
+                scope.SetVariable("player", this.player);
 
                 foreach (string script in files)
                 {
                     string fullPath = string.Format("{0}{1}", basePath, script);
                     string contents = System.IO.File.ReadAllText(fullPath);
-                    var command = engine.Execute<dynamic>(contents, scope);                    
+                    object command = engine.Execute<dynamic>(contents, scope);                    
+                    //Command c = new Command(command);
                     this.knownCommands.Add(command);
                 }
             }

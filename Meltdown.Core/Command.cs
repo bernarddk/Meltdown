@@ -11,7 +11,7 @@ namespace Meltdown.Core
         public string Name { get; set; }
         public string[] Verbs { get; private set; }
 
-        public delegate string CommandAction(string target, string instrument, string preposition);
+        public delegate string CommandAction(string targetName, string instrument, string preposition);
         private CommandAction action;
 
         public Command(string name, string[] verbs, CommandAction action)
@@ -23,9 +23,9 @@ namespace Meltdown.Core
 
         // Lock.invoke(door)
         // Unlock.invoke(door, key, with)
-        public string Invoke(string target = "", string instrument = "", string preposition = "")
+        public string Invoke(string targetName = "", string instrument = "", string preposition = "")
         {
-            return this.action.Invoke(target, instrument, preposition);
+            return this.action.Invoke(targetName, instrument, preposition);
         }
     }
 }

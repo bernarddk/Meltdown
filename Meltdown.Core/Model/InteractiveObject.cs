@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Meltdown.Game.Model
+namespace Meltdown.Core.Model
 {
-    class InteractiveObject
+    public class InteractiveObject
     {
         public string Name { get; private set; }
         public string Description { get; private set; }
@@ -22,6 +22,15 @@ namespace Meltdown.Game.Model
             {
                 this.Affordances.AddRange(affordances);
             }
+        }
+
+        public bool Can(string affordance)
+        {
+            return this.Affordances.Any(a => a.ToUpper() == affordance.ToUpper());
+        }
+
+        public void Destroy()
+        {
         }
     }
 }

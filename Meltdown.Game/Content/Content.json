@@ -5,11 +5,16 @@
         {
             "Name": "Pebble",
             "Description": "A smooth, flat grey pebble.",
-            "Affordances": [ "get" ]
+            "Affordances": ["get"]
         },
         {
             "Name": "Car",
             "Description": "A sleek, red Jaguar with chrome hubcaps."
+        },
+        {
+            "Name": "Torch",
+            "Description": "A stick of wood. It's on fire.",
+            "Affordances": ["get", "burn"]
         }
     ]
 }

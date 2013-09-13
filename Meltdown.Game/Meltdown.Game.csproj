@@ -63,9 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Area.cs" />
-    <Compile Include="Model\InteractiveObject.cs" />
     <Compile Include="InteractiveFictionGame.cs" />
-    <Compile Include="Model\Player.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
