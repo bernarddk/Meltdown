@@ -16,7 +16,7 @@ namespace Meltdown.Game
         private Area currentArea;
         private Player player = Player.Instance;
 
-        private List<dynamic> knownCommands = new List<dynamic>()
+        private List<Command> knownCommands = new List<Command>()
         {
             new Command("Unknown", new string[0], (t, i, p) => {
                 return "Can't do that.";
@@ -57,26 +57,7 @@ namespace Meltdown.Game
             string[] text = input.Split(new char[] { ' ' });
             string commandText = (text.Length > 0 ? text[0] : "");
 
-            //Command command = knownCommands.FirstOrDefault(c => c.Verbs.Select(s => s.ToUpper()).Contains(commandText.ToUpper()));
-            //Command command = knownCommands.FirstOrDefault(c => (c as Command).Verbs.Any(s => s.ToUpper() == commandText.ToUpper()));            
-                        
-            // Necessary because of typing from C# to Ruby. Blegh.
-            dynamic command = null;
-            foreach (var c in this.knownCommands)
-            {
-                IEnumerable<string> verbs = c.GetType().GetProperty("Verbs").GetValue(c, null);
-                if (verbs.Any(v => v.ToUpper() == commandText.ToUpper()))
-                {
-                    if (command == null)
-                    {
-                        command = c;
-                    }
-                    else
-                    {
-                        throw new Exception("There are two commands that respond to " + commandText);
-                    }
-                }
-            }            
+            Command command = knownCommands.FirstOrDefault(c => (c as Command).Verbs.Any(s => s.ToUpper() == commandText.ToUpper()));            
 
             if (command == null)
             {
@@ -245,7 +226,7 @@ namespace Meltdown.Game
                 {
                     string fullPath = string.Format("{0}{1}", basePath, script);
                     string contents = System.IO.File.ReadAllText(fullPath);
-                    object command = engine.Execute<dynamic>(contents, scope);                    
+                    var command = engine.Execute<Command>(contents, scope);                    
                     //Command c = new Command(command);
                     this.knownCommands.Add(command);
                 }

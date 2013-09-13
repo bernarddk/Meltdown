@@ -5,6 +5,7 @@ end
 require 'Meltdown.Core.dll'
 include Meltdown::Core
 include Meltdown::Core::Model
+load_assembly 'Meltdown.Core'
 
 Command.new("Ruby Command", to_clr_string_array(['burn']), Proc.new { |target, instrument, preposition|
     #puts "Command invoked with #{target}, #{instrument}, and #{preposition}"
@@ -15,8 +16,6 @@ Command.new("Ruby Command", to_clr_string_array(['burn']), Proc.new { |target, i
         player.Inventory.each { |obj |
             if (obj.Name.downcase == target.downcase) then
                 target_object = obj
-            else
-                puts "#{target.downcase} != #{obj.Name.downcase}"
             end
         }
 

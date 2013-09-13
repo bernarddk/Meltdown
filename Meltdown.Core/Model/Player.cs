@@ -9,7 +9,7 @@ namespace Meltdown.Core.Model
 {
     public class Player
     {
-        public List<dynamic> Inventory { get; private set; }
+        public List<InteractiveObject> Inventory { get; private set; }
         public static Player Instance { get; private set; }
 
         static Player()
@@ -19,15 +19,15 @@ namespace Meltdown.Core.Model
 
         private Player()
         {
-            this.Inventory = new List<dynamic>();            
+            this.Inventory = new List<InteractiveObject>();            
         }
 
-        public void GetObject(dynamic o)
+        public void GetObject(InteractiveObject o)
         {
             this.Inventory.Add(o);
         }
 
-        public void LoseObject(dynamic o)
+        public void LoseObject(InteractiveObject o)
         {
             this.Inventory.Remove(o);
         }
