@@ -6,6 +6,7 @@ using IronRuby;
 using Meltdown.Game.Model;
 using Meltdown.Core.Model;
 using Meltdown.Core;
+using System.Text.RegularExpressions;
 
 namespace Meltdown.Game
 {
@@ -29,6 +30,7 @@ namespace Meltdown.Game
         public InteractiveFictionGame(string contentFile)
         {
             this.SetupCommands();
+
             this.unknownCommand = knownCommands.First(c => c.Name.ToLower() == "unknown");
 
             string contents = System.IO.File.ReadAllText(contentFile);
@@ -65,27 +67,35 @@ namespace Meltdown.Game
             }
 
             string content = "";
-
-            if (text.Length == 1)
+            InteractiveObject first = (text.Length <= 1 ? null : this.currentArea.Objects.FirstOrDefault(o => o.Name.ToUpper() == text[1].Trim().ToUpper()));
+            if (first != null && !first.Affordances.Any(f => command.Verbs.Any(v => v.ToUpper() == f.ToUpper())))
             {
-                content = command.Invoke();
-            } else if (text.Length == 2)
-            {
-                // <command> <target>
-                content = command.Invoke(text[1], "", "");
+                Console.WriteLine(string.Format("You can't {0} the {1}", text[0], first.Name));
             }
-            else if (text.Length == 4)
+            else
             {
-                // <command> <target> <instrument> <preposition>
-                content = command.Invoke(text[1], text[3], text[2]);
-            }
+                if (text.Length == 1)
+                {
+                    content = command.Invoke();
+                }
+                else if (text.Length == 2)
+                {
+                    // <command> <target>
+                    content = command.Invoke(first, "", "");
+                }
+                else if (text.Length == 4)
+                {
+                    // <command> <target> <instrument> <preposition>
+                    content = command.Invoke(first, text[3], text[2]);
+                }
 
-            if (content != "")
-            {
-                Console.WriteLine(content);
-            }
+                if (content != "")
+                {
+                    Console.WriteLine(content);
+                }
 
-            Console.WriteLine();
+                Console.WriteLine();
+            }
         }
 
         // Show the prompt and get some input. Input terminates with a newline ('\r').
@@ -169,24 +179,22 @@ namespace Meltdown.Game
                 if (t == null) {
                     return "Get what? (Can't find that.)";
                 } else {
-                    // Find the object
-                    var found = this.currentArea.Objects.FirstOrDefault(o => o.Name.ToUpper() == t.ToUpper());
-                    if (found != null)
+                    if (t != null)
                     {
-                        if (found.Affordances.Any(a => a.ToUpper() == "get".ToUpper()))
+                        if (t.Affordances.Any(a => a.ToUpper() == "get".ToUpper()))
                         {
-                            player.GetObject(found);
-                            this.currentArea.RemoveObject(found);
-                            return string.Format("Picked up {0}.", found.Name);
+                            player.GetObject(t);
+                            this.currentArea.RemoveObject(t);
+                            return string.Format("Picked up {0}.", t.Name);
                         }
                         else
                         {
-                            return string.Format("Can't pick {0} up.", found.Name);
+                            return string.Format("Can't pick {0} up.", t.Name);
                         }
                     }
                     else
                     {
-                        return string.Format("Can't find {0} here.", t);
+                        return string.Format("Can't find {0} here.", t.Name);
                     }
                 }
             }));
@@ -227,7 +235,6 @@ namespace Meltdown.Game
                     string fullPath = string.Format("{0}{1}", basePath, script);
                     string contents = System.IO.File.ReadAllText(fullPath);
                     var command = engine.Execute<Command>(contents, scope);                    
-                    //Command c = new Command(command);
                     this.knownCommands.Add(command);
                 }
             }

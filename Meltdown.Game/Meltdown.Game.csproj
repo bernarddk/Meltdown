@@ -73,7 +73,7 @@
     <Content Include="Content\Content.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Commands\burn.rb">
+    <Content Include="Content\Commands\Burn.rb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
