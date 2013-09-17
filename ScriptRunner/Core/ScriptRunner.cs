@@ -13,6 +13,7 @@ namespace ScriptRunner.Core
 
         private static ScriptRunner instance = new ScriptRunner();
         
+        // TODO: support Jurassic (.js)
         private readonly IDictionary<string, IRunner> SupportedEngines = new Dictionary<string, IRunner>() {
             { "rb", new RubyRunner() }
         };

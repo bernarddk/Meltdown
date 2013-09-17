@@ -59,42 +59,48 @@ namespace Meltdown.Game
             string[] text = input.Split(new char[] { ' ' });
             string commandText = (text.Length > 0 ? text[0] : "");
 
-            Command command = knownCommands.FirstOrDefault(c => (c as Command).Verbs.Any(s => s.ToUpper() == commandText.ToUpper()));            
+            Command command = knownCommands.FirstOrDefault(c => (c as Command).Verbs.Any(s => s.ToUpper() == commandText.ToUpper()));
 
             if (command == null)
             {
-                command = unknownCommand;
-            }
-
-            string content = "";
-            InteractiveObject first = (text.Length <= 1 ? null : this.currentArea.Objects.FirstOrDefault(o => o.Name.ToUpper() == text[1].Trim().ToUpper()));
-            if (first != null && !first.Affordances.Any(f => command.Verbs.Any(v => v.ToUpper() == f.ToUpper())))
-            {
-                Console.WriteLine(string.Format("You can't {0} the {1}", text[0], first.Name));
+                Console.WriteLine(unknownCommand.Invoke());
             }
             else
             {
+
+                string content = "";
+
                 if (text.Length == 1)
                 {
                     content = command.Invoke();
                 }
-                else if (text.Length == 2)
+                else if (text.Length > 1)
                 {
-                    // <command> <target>
-                    content = command.Invoke(first, "", "");
-                }
-                else if (text.Length == 4)
-                {
-                    // <command> <target> <instrument> <preposition>
-                    content = command.Invoke(first, text[3], text[2]);
-                }
+                    InteractiveObject first = (text.Length <= 1 ? null : this.currentArea.Objects.FirstOrDefault(o => o.Name.ToUpper() == text[1].Trim().ToUpper()));
+                    if (first != null && !first.Affordances.Any(f => command.Verbs.Any(v => v.ToUpper() == f.ToUpper())))
+                    {
+                        Console.WriteLine(string.Format("You can't {0} the {1}", text[0], first.Name));
+                    }
+                    else if (text.Length == 2)
+                    {
+                        // <command> <target>
+                        content = command.Invoke(first, "", "");
+                    }
+                    else if (text.Length == 4)
+                    {
+                        // <command> <target> <instrument> <preposition>
+                        content = command.Invoke(first, text[3], text[2]);
+                    }
+                    else
+                    {
+                        Console.WriteLine("You can't do that.");
+                    }
 
-                if (content != "")
-                {
-                    Console.WriteLine(content);
+                    if (content != "")
+                    {
+                        Console.WriteLine(content);
+                    }
                 }
-
-                Console.WriteLine();
             }
         }
 
@@ -104,11 +110,10 @@ namespace Meltdown.Game
         {
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.Write("> ");
-            //console.Refresh();
 
             StringBuilder toReturn = new StringBuilder();
 
-            ConsoleKeyInfo next = ReadInputAndAppend(toReturn);
+            ConsoleKeyInfo next = this.ReadInputAndAppend(toReturn);
             
             while (next.Key != ConsoleKey.Enter)
             {                
@@ -127,12 +132,13 @@ namespace Meltdown.Game
                 if (toReturn.Length > 0)
                 {
                     toReturn.Remove(toReturn.Length - 1, 1);
+                    this.WriteBackspace();
                 }
             }
             else
             {
                 toReturn.Append(next.KeyChar);
-            }
+            }            
 
             if (next.Key == ConsoleKey.Enter)
             {
@@ -235,6 +241,14 @@ namespace Meltdown.Game
                     this.knownCommands.Add(command);
                 }
             }
+        }
+
+        private void WriteBackspace()
+        {
+            // Why doesn't writing "\b" work?
+            Console.Write(" ");
+            Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+
         }
     }
 }

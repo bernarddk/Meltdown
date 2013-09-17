@@ -9,14 +9,10 @@ load_assembly 'Meltdown.Core'
 
 Command.new("Burn", to_clr_string_array(['burn']), Proc.new { |target, instrument, preposition|    
     if (target.nil? || target == "") then
-        puts "Burn what?"
+        print "Burn what?"
     else         
-        if target.Can('burn') then
-            puts "You burn the #{target.Name}."
-            game.current_area.RemoveObject(target)
-            target.Destroy
-        else
-            puts "You can't burn #{target}!"
-        end
+        print "You burn the #{target.Name}."
+        game.current_area.RemoveObject(target)
+        target.Destroy
     end
 })
