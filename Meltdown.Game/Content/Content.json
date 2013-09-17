@@ -1,7 +1,7 @@
 ﻿{
     "Name": "Meadow",
     "Description": "Grassy green hills sprawl under a cloudless, azure-blue sky. Boring, isn't it?",
-    "PlainObjects": [
+    "Objects": [
         {
             "Name": "Pebble",
             "Description": "A smooth, flat grey pebble.",

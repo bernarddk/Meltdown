@@ -7,8 +7,7 @@ include Meltdown::Core
 include Meltdown::Core::Model
 load_assembly 'Meltdown.Core'
 
-Command.new("Ruby Command", to_clr_string_array(['burn']), Proc.new { |target, instrument, preposition|
-    #puts "Command invoked with #{target}, #{instrument}, and #{preposition}"
+Command.new("Burn", to_clr_string_array(['burn']), Proc.new { |target, instrument, preposition|    
     if (target.nil? || target == "") then
         puts "Burn what?"
     else         

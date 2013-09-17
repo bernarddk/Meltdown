@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using IronRuby;
 using Meltdown.Game.Model;
 using Meltdown.Core.Model;
 using Meltdown.Core;
@@ -16,6 +15,7 @@ namespace Meltdown.Game
 
         private Area currentArea;
         private Player player = Player.Instance;
+        private ScriptRunner.Core.ScriptRunner scriptRunner = ScriptRunner.Core.ScriptRunner.Instance;
 
         private List<Command> knownCommands = new List<Command>()
         {
@@ -225,16 +225,13 @@ namespace Meltdown.Game
 
             if (files.Length > 0)
             {
-                var engine = Ruby.CreateEngine();
-                var scope = engine.Runtime.CreateScope();
-                scope.SetVariable("game", this);
-                scope.SetVariable("player", this.player);
+                scriptRunner.BindParameter("game", this)
+                    .BindParameter("player", this.player);
 
                 foreach (string script in files)
                 {
                     string fullPath = string.Format("{0}{1}", basePath, script);
-                    string contents = System.IO.File.ReadAllText(fullPath);
-                    var command = engine.Execute<Command>(contents, scope);                    
+                    var command = scriptRunner.Execute<Command>(fullPath);
                     this.knownCommands.Add(command);
                 }
             }

@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meltdown.Game", "Meltdown.G
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meltdown.Core", "Meltdown.Core\Meltdown.Core.csproj", "{FC2C0902-857C-45EF-93C1-6141307D66C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptRunner", "ScriptRunner\ScriptRunner.csproj", "{301AC278-A5BE-49B4-A162-EF4963EDA771}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{FC2C0902-857C-45EF-93C1-6141307D66C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC2C0902-857C-45EF-93C1-6141307D66C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC2C0902-857C-45EF-93C1-6141307D66C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{301AC278-A5BE-49B4-A162-EF4963EDA771}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{301AC278-A5BE-49B4-A162-EF4963EDA771}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{301AC278-A5BE-49B4-A162-EF4963EDA771}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{301AC278-A5BE-49B4-A162-EF4963EDA771}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
