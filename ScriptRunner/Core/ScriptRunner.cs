@@ -13,7 +13,6 @@ namespace ScriptRunner.Core
 
         private static ScriptRunner instance = new ScriptRunner();
         
-        // TODO: support Jurassic (.js)
         private readonly IDictionary<string, IRunner> SupportedEngines = new Dictionary<string, IRunner>() {
             { "rb", new RubyRunner() }
         };
@@ -45,7 +44,8 @@ namespace ScriptRunner.Core
                 }
                 else
                 {
-                    return this.SupportedEngines[extension].Execute<T>(scriptName, parameters);
+                    string script = System.IO.File.ReadAllText(scriptName);
+                    return this.SupportedEngines[extension].Execute<T>(script, parameters);
                 }
             }
         }

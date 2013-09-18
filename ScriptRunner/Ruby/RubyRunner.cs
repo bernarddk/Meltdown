@@ -12,7 +12,7 @@ namespace ScriptRunner.Ruby
     {
         private ScriptEngine engine = IronRuby.Ruby.CreateEngine();
 
-        public T Execute<T>(string scriptFullPath, IDictionary<string, object> parameters)
+        public T Execute<T>(string script, IDictionary<string, object> parameters)
         {
             var scope = engine.Runtime.CreateScope();
 
@@ -21,9 +21,16 @@ namespace ScriptRunner.Ruby
                 scope.SetVariable(kvp.Key, kvp.Value);
             }
 
-            string contents = System.IO.File.ReadAllText(scriptFullPath);
-            var toReturn = engine.Execute<T>(contents, scope);
-            return toReturn;
+            var toReturn = engine.Execute(script, scope);
+
+            if (toReturn is T)
+            {
+                return (T)toReturn;
+            }
+            else
+            {
+                throw new ArgumentException("Expected an instance of " + typeof(T).FullName + " but got " + toReturn.GetType().FullName + " instead.");
+            }
         }
     }
 }

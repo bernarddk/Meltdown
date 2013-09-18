@@ -9,6 +9,6 @@ namespace ScriptRunner.Core
     // A runnable script engine
     interface IRunner
     {
-        T Execute<T>(string scriptName, IDictionary<string, object> parameters);
+        T Execute<T>(string script, IDictionary<string, object> parameters);
     }
 }
