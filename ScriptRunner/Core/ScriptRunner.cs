@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ScriptRunner.Javascript;
 using ScriptRunner.Ruby;
 
 namespace ScriptRunner.Core
@@ -14,7 +15,8 @@ namespace ScriptRunner.Core
         private static ScriptRunner instance = new ScriptRunner();
         
         private readonly IDictionary<string, IRunner> SupportedEngines = new Dictionary<string, IRunner>() {
-            { "rb", new RubyRunner() }
+            { "rb", new RubyRunner() },
+            { "js", new JavascriptRunner() }
         };
 
         private IDictionary<string, object> parameters = new Dictionary<string, object>();
