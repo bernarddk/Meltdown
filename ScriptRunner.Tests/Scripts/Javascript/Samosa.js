@@ -1,0 +1,1 @@
+﻿new InteractiveObject("Samosa", "A crisp, triangular samosa.", ['eat']);

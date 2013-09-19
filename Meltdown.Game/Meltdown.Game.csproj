@@ -72,7 +72,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Area.cs" />
     <Compile Include="InteractiveFictionGame.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
@@ -80,10 +79,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Content Include="Content\Content.json">
+    <Content Include="..\ScriptRunner\lib\ClearScriptV8-32.dll">
+      <Link>ClearScriptV8-32.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Commands\Burn.rb">
+    <Content Include="..\ScriptRunner\lib\ClearScriptV8-64.dll">
+      <Link>ClearScriptV8-64.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Content.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
@@ -97,6 +101,9 @@
       <Project>{301ac278-a5be-49b4-a162-ef4963eda771}</Project>
       <Name>ScriptRunner</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\Commands\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

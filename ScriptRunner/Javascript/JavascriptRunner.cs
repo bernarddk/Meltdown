@@ -10,7 +10,7 @@ using ScriptRunner.Core;
 
 namespace ScriptRunner.Javascript
 {
-    class JavascriptRunner : IRunner
+    class JavascriptRunner : IRunner, IDisposable
     {
         V8ScriptEngine engine = new V8ScriptEngine();
 
@@ -33,6 +33,11 @@ namespace ScriptRunner.Javascript
             {
                 throw new ArgumentException("Expected " + typeof(T).FullName + " but got " + toReturn.GetType().FullName);
             }
+        }
+
+        public void Dispose()
+        {
+            this.engine.Dispose();
         }
     }
 }

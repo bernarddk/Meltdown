@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Scripting.Hosting;
@@ -11,6 +13,15 @@ namespace ScriptRunner.Ruby
     class RubyRunner : IRunner
     {
         private ScriptEngine engine = IronRuby.Ruby.CreateEngine();
+        private string commonHeaderScript = "";
+
+        public RubyRunner()
+        {
+            if (File.Exists(@"Ruby\Common.rb"))
+            {
+                this.commonHeaderScript = File.ReadAllText(@"Ruby\Common.rb");
+            }
+        }
 
         public T Execute<T>(string script, IDictionary<string, object> parameters)
         {
@@ -21,7 +32,8 @@ namespace ScriptRunner.Ruby
                 scope.SetVariable(kvp.Key, kvp.Value);
             }
 
-            var toReturn = engine.Execute(script, scope);
+            var finalScript = string.Format("{0}\n{1}", this.commonHeaderScript, script);
+            var toReturn = engine.Execute(finalScript, scope);
 
             if (toReturn is T)
             {

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Meltdown.Core;
 using Meltdown.Core.Model;
 
-namespace Meltdown.Game.Model
+namespace Meltdown.Core.Model
 {
-    class Area
+    public class Area
     {
         public string Name { get; private set; }
         public string Description { get; private set; }
@@ -19,11 +19,6 @@ namespace Meltdown.Game.Model
             this.Name = name;
             this.Description = description;
             this.Objects = new List<InteractiveObject>();
-        }
-
-        public void RemoveObject(InteractiveObject target)
-        {
-            this.Objects.Remove(target);
         }
     }
 }

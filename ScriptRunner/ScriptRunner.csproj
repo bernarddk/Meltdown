@@ -86,12 +86,15 @@
   <ItemGroup>
     <Compile Include="Core\IRunner.cs" />
     <Compile Include="Javascript\JavascriptRunner.cs" />
-    <Compile Include="Core\ScriptRunner.cs" />
+    <Compile Include="Core\Runner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ruby\RubyRunner.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="Ruby\Common.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Meltdown.Core\Meltdown.Core.csproj">
@@ -100,10 +103,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="lib\v8-ia32.dll">
+    <Content Include="v8-ia32.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="lib\v8-x64.dll">
+    <Content Include="v8-x64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

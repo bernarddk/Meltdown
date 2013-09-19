@@ -8,11 +8,11 @@ using ScriptRunner.Ruby;
 
 namespace ScriptRunner.Core
 {    
-    public class ScriptRunner
+    public class Runner
     {
-        public static ScriptRunner Instance { get { return instance; } }
+        public static Runner Instance { get { return instance; } }
 
-        private static ScriptRunner instance = new ScriptRunner();
+        private static Runner instance = new Runner();
         
         private readonly IDictionary<string, IRunner> SupportedEngines = new Dictionary<string, IRunner>() {
             { "rb", new RubyRunner() },
@@ -20,12 +20,8 @@ namespace ScriptRunner.Core
         };
 
         private IDictionary<string, object> parameters = new Dictionary<string, object>();
-
-        private ScriptRunner()
-        {
-        }
-
-        public ScriptRunner BindParameter(string key, object value)
+        
+        public Runner BindParameter(string key, object value)
         {
             this.parameters[key] = value;
             return this;

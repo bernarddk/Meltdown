@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Meltdown.Game.Model;
 using Meltdown.Core.Model;
 using Meltdown.Core;
 using System.Text.RegularExpressions;
+using ScriptRunner.Core;
 
 namespace Meltdown.Game
 {
@@ -15,7 +15,7 @@ namespace Meltdown.Game
 
         private Area currentArea;
         private Player player = Player.Instance;
-        private ScriptRunner.Core.ScriptRunner scriptRunner = ScriptRunner.Core.ScriptRunner.Instance;
+        private Runner runner = Runner.Instance;
 
         private List<Command> knownCommands = new List<Command>()
         {
@@ -190,7 +190,7 @@ namespace Meltdown.Game
                         if (t.Affordances.Any(a => a.ToUpper() == "get".ToUpper()))
                         {
                             player.GetObject(t);
-                            this.currentArea.RemoveObject(t);
+                            this.currentArea.Objects.Remove(t);
                             return string.Format("Picked up {0}.", t.Name);
                         }
                         else
@@ -231,13 +231,13 @@ namespace Meltdown.Game
 
             if (files.Length > 0)
             {
-                scriptRunner.BindParameter("game", this)
+                runner.BindParameter("game", this)
                     .BindParameter("player", this.player);
 
                 foreach (string script in files)
                 {
                     string fullPath = string.Format("{0}{1}", basePath, script);
-                    var command = scriptRunner.Execute<Command>(fullPath);
+                    var command = runner.Execute<Command>(fullPath);
                     this.knownCommands.Add(command);
                 }
             }

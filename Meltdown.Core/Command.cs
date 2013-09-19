@@ -20,24 +20,13 @@ namespace Meltdown.Core
         {
             this.Name = name;
             this.action = action;
-            if (verbs.constructor.name == "Array")
+            if (verbs is IEnumerable<string>)
             {
-                var found = new List<string>();
-
-                for (int i = 0; i < verbs.length; i++)
-                {
-                    found.Add(verbs[i]);
-                }
-
-                this.Verbs = found;
+                this.Verbs = verbs;
+            } else if (ScriptHelper.IsArray(verbs))
+            {
+                this.Verbs = ScriptHelper.ToStringList(verbs);
             }
-        }
-
-        public Command(string name, IEnumerable<string> verbs, CommandAction action)
-        {
-            this.Name = name;
-            this.Verbs = verbs;
-            this.action = action;
         }
 
         // Lock.invoke(door)

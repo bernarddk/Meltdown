@@ -12,7 +12,8 @@ namespace Meltdown.Core.Model
         public string Description { get; private set; }
         public List<string> Affordances { get; private set; }
 
-        public InteractiveObject(string name, string description, IEnumerable<string> affordances)
+        // Dynamic: .NET uses IEnumerable<string>, ClearScript uses some V8ScriptItem thing.
+        public InteractiveObject(string name, string description, dynamic affordances)
         {
             this.Name = name;
             this.Description = description;
@@ -20,7 +21,12 @@ namespace Meltdown.Core.Model
             this.Affordances = new List<string>();
             if (affordances != null)
             {
-                this.Affordances.AddRange(affordances);
+                if (affordances is IEnumerable<string>)
+                {
+                    this.Affordances.AddRange(affordances);
+                } else if (ScriptHelper.IsArray(affordances)) {
+                    this.Affordances = ScriptHelper.ToStringList(affordances);
+                }
             }
         }
 
