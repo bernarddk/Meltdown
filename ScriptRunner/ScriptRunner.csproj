@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\IRunner.cs" />
+    <Compile Include="Core\ScriptHelper.cs" />
     <Compile Include="Javascript\JavascriptRunner.cs" />
     <Compile Include="Core\Runner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

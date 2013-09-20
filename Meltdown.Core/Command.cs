@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Meltdown.Core.Model;
+using ScriptMediator;
 
 namespace Meltdown.Core
 {
@@ -25,7 +26,7 @@ namespace Meltdown.Core
                 this.Verbs = verbs;
             } else if (ScriptHelper.IsArray(verbs))
             {
-                this.Verbs = ScriptHelper.ToStringList(verbs);
+                this.Verbs = ScriptHelper.ToList<string>(verbs);
             }
         }
 

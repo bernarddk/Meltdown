@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptRunner", "ScriptRunne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptRunner.Tests", "ScriptRunner.Tests\ScriptRunner.Tests.csproj", "{A5A72717-969A-4B54-A793-406CDDA557C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptMediator", "ScriptMediator\ScriptMediator.csproj", "{F414A0BF-2EB0-4FED-AC96-21B3F583C40C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{A5A72717-969A-4B54-A793-406CDDA557C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5A72717-969A-4B54-A793-406CDDA557C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5A72717-969A-4B54-A793-406CDDA557C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F414A0BF-2EB0-4FED-AC96-21B3F583C40C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F414A0BF-2EB0-4FED-AC96-21B3F583C40C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F414A0BF-2EB0-4FED-AC96-21B3F583C40C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F414A0BF-2EB0-4FED-AC96-21B3F583C40C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ScriptMediator;
 
 namespace Meltdown.Core.Model
 {
@@ -25,7 +26,7 @@ namespace Meltdown.Core.Model
                 {
                     this.Affordances.AddRange(affordances);
                 } else if (ScriptHelper.IsArray(affordances)) {
-                    this.Affordances = ScriptHelper.ToStringList(affordances);
+                    this.Affordances = ScriptHelper.ToList<string>(affordances);
                 }
             }
         }

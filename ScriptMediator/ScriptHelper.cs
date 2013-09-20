@@ -4,26 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Meltdown.Core
+namespace ScriptMediator
 {
-    static class ScriptHelper
+    public static class ScriptHelper
     {
-        public static List<string> ToStringList(dynamic source)
+        public static List<T> ToList<T>(dynamic source)
         {
-            var found = new List<string>();
+            var found = new List<T>();
             ScriptType type = DetectScriptType(source);
             switch (type)
             {
                 case ScriptType.Ruby:
                     for (int i = 0; i < source.Count; i++)
                     {
-                        found.Add(source[i].ToString());
+                        object next = source[i];
+                        found.Add(GetAsType<T>(next));
                     }
                     break;
                 case ScriptType.Javascript:
                     for (int i = 0; i < source.length; i++)
                     {
-                        found.Add(source[i]);
+                        object next = source[i];
+                        found.Add(GetAsType<T>(next));
                     }
                     break;
                 default:
@@ -31,6 +33,25 @@ namespace Meltdown.Core
             }
 
             return found;
+        }
+
+        private static T GetAsType<T>(dynamic next)
+        {                        
+            if (next is T)
+            {
+                return (T)next;
+            }
+            else
+            {
+                if (typeof(T) == typeof(string))
+                {
+                    return next.ToString();
+                }
+                else
+                {
+                    throw new ArgumentException("Expected instances of " + typeof(T).FullName + ", but found " + next.GetType().FullName + " (" + next + ")");
+                }
+            }
         }
 
         public static Boolean IsArray(dynamic source) {
@@ -62,7 +83,5 @@ namespace Meltdown.Core
                 throw new ArgumentException("Can't figure out the script type.");
             }
         }
-
-        public enum ScriptType { Ruby, Javascript }
     }
 }

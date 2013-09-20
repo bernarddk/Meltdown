@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ScriptRunner")]
+[assembly: AssemblyTitle("ScriptMediator")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ScriptRunner")]
+[assembly: AssemblyProduct("ScriptMediator")]
 [assembly: AssemblyCopyright("Copyright © Ashiq Alibhai 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("0b8d38b3-6d01-4c69-ba2d-f306db0c79f5")]
+[assembly: Guid("2715dac5-bef9-46d2-b9d2-fb01d9d3a67c")]
 
 // Version information for an assembly consists of the following four values:
 //
