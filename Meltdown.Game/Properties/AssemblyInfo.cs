@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Meltdown.Game")]
-[assembly: AssemblyCopyright("Copyright © Ashiq Alibhai 2013")]
+[assembly: AssemblyCopyright("Copyright © Deen Games 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

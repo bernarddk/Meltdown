@@ -6,6 +6,7 @@ using Meltdown.Core.Model;
 using Meltdown.Core;
 using System.Text.RegularExpressions;
 using ScriptRunner.Core;
+using System.IO;
 
 namespace Meltdown.Game
 {
@@ -35,11 +36,48 @@ namespace Meltdown.Game
             this.unknownCommand = knownCommands.First(c => c.Name.ToLower() == "unknown");
             this.lookCommand = knownCommands.First(c => c.Name.ToLower() == "look");
 
-            //string contents = System.IO.File.ReadAllText(contentFile);
-            //this.currentArea = Newtonsoft.Json.JsonConvert.DeserializeObject<Area>(contents);
-            this.currentArea = new Area("Test Area", "An empty testing zone, devoid of any life, colour, or candy.");
-            this.currentArea.Exits[Direction.North] = new Area("Factory", "An empty, ugly factory. What are you doing here?");
-            this.currentArea.Exits[Direction.North].Exits[Direction.South] = this.currentArea;
+            this.LoadGame();
+        }
+
+        private void LoadGame()
+        {
+            IEnumerable<string> gameFiles = Directory.GetFiles(@"Content\Games", "*.*").Where(s => s.ToLower().EndsWith(".rb") || s.ToLower().EndsWith(".js"));
+            if (gameFiles.Count() == 0)
+            {
+                throw new NotImplementedException("Looks like you don't have any games in Content\\Games. Add some.");
+            }
+            else if (gameFiles.Count() == 1)
+            {
+                this.currentArea = Runner.Instance.Execute<Area>(gameFiles.First());
+            }
+            else
+            {
+                Console.WriteLine("Available games:");
+                int next = 1;
+
+                // Pick
+                foreach (string file in gameFiles)
+                {
+                    Console.WriteLine(string.Format("{0}) {1}", next, file));
+                    next++;
+                }
+
+                Console.WriteLine("Load which game number?");
+                string input = Console.ReadLine();
+                int number = 0;
+                if (int.TryParse(input, out number))
+                {
+                    if (number > 0 && number - 1 < gameFiles.Count())
+                    {
+                        string game = gameFiles.ElementAt(number - 1);
+                        this.currentArea = Runner.Instance.Execute<Area>(game);
+                    }
+                    else
+                    {
+                        Console.WriteLine("That game doesn't exist, dummy!");
+                    }
+                }
+            }
         }
 
         public void Start()
