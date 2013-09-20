@@ -80,7 +80,7 @@ namespace ScriptMediator
             }
             else
             {
-                throw new ArgumentException("Can't figure out the script type.");
+                throw new ArgumentException("Can't figure out the script type for " + source);
             }
         }
     }

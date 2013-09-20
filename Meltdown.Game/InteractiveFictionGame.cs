@@ -25,6 +25,7 @@ namespace Meltdown.Game
         };
 
         private Command unknownCommand;
+        private Command lookCommand;
         private bool isRunning = true;
 
         public InteractiveFictionGame(string contentFile)
@@ -32,9 +33,13 @@ namespace Meltdown.Game
             this.SetupCommands();
 
             this.unknownCommand = knownCommands.First(c => c.Name.ToLower() == "unknown");
+            this.lookCommand = knownCommands.First(c => c.Name.ToLower() == "look");
 
-            string contents = System.IO.File.ReadAllText(contentFile);
-            this.currentArea = Newtonsoft.Json.JsonConvert.DeserializeObject<Area>(contents);
+            //string contents = System.IO.File.ReadAllText(contentFile);
+            //this.currentArea = Newtonsoft.Json.JsonConvert.DeserializeObject<Area>(contents);
+            this.currentArea = new Area("Test Area", "An empty testing zone, devoid of any life, colour, or candy.");
+            this.currentArea.Exits[Direction.North] = new Area("Factory", "An empty, ugly factory. What are you doing here?");
+            this.currentArea.Exits[Direction.North].Exits[Direction.South] = this.currentArea;
         }
 
         public void Start()
@@ -93,13 +98,12 @@ namespace Meltdown.Game
                     }
                     else
                     {
-                        Console.WriteLine("You can't do that.");
+                        content = "You can't do that.";
                     }
-
-                    if (content != "")
-                    {
-                        Console.WriteLine(content);
-                    }
+                }
+                if (content != "")
+                {
+                    Console.WriteLine(content);
                 }
             }
         }
@@ -151,7 +155,7 @@ namespace Meltdown.Game
         private void SetupCommands()
         {
             this.SetupSystemCommands();
-            this.LoadRubyCommands();
+            this.LoadScriptedCommands();
         }
 
         private void SetupSystemCommands()
@@ -171,10 +175,24 @@ namespace Meltdown.Game
                 Console.WriteLine(currentArea.Description);
                 Console.WriteLine();
 
-                foreach (InteractiveObject o in currentArea.Objects)
+                if (currentArea.Objects.Any())
                 {
-                    Console.WriteLine(string.Format("You see a {0} here.", o.Name.ToLower()));
+                    foreach (InteractiveObject o in currentArea.Objects)
+                    {
+                        Console.WriteLine(string.Format("You see a {0} here.", o.Name.ToLower()));
+                    }
+                    Console.WriteLine();
                 }
+
+                if (currentArea.Exits.Any())
+                {
+                    foreach (var exit in currentArea.Exits)
+                    {
+                        Console.WriteLine(string.Format("{0} to {1}", exit.Key, exit.Value.Name));
+                    }
+                    Console.WriteLine();
+                }
+
                 
                 return "";
             }));
@@ -222,14 +240,38 @@ namespace Meltdown.Game
                     return toReturn.ToString();
                 }
             }));
+
+            // Directions: NSEW. Forget up/down for now.
+            foreach (Direction direction in Enum.GetValues(typeof(Direction)))
+            {
+                string name = direction.ToString();
+                string firstLetter = name.First().ToString();
+
+                this.knownCommands.Add(new Command(name, new string[] { firstLetter, name.ToLower() }, (t, i, p) =>
+                {
+                    if (this.currentArea.Exits.ContainsKey(direction))
+                    {
+                        this.currentArea = this.currentArea.Exits[direction];
+                        Console.WriteLine(string.Format("You travel {0}.\n", name.ToLower()));
+                        this.lookCommand.Invoke();
+                        return "";
+                    }
+                    else
+                    {
+                        return string.Format("You can't travel {0} from here.\n", name.ToLower());
+                    }
+                }));
+            }
         }
 
-        private void LoadRubyCommands()
+        private void LoadScriptedCommands()
         {            
-            string[] files = System.IO.Directory.GetFiles(@"Content\Commands", "*.rb");
+            string[] allFiles = System.IO.Directory.GetFiles(@"Content\Commands", "*.*");
+            IEnumerable<string> files = allFiles.Where(f => f.EndsWith(".rb") || f.EndsWith(".js"));
+
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
 
-            if (files.Length > 0)
+            if (files.Any())
             {
                 runner.BindParameter("game", this)
                     .BindParameter("player", this.player);
@@ -248,7 +290,6 @@ namespace Meltdown.Game
             // Why doesn't writing "\b" work?
             Console.Write(" ");
             Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
-
         }
     }
 }

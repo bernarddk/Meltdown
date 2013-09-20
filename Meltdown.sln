@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptRunner.Tests", "Scrip
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptMediator", "ScriptMediator\ScriptMediator.csproj", "{F414A0BF-2EB0-4FED-AC96-21B3F583C40C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeltDown.Tests", "MeltDown.Tests\MeltDown.Tests.csproj", "{9AA4FC24-F4A8-4D4E-A729-89751461EF16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{F414A0BF-2EB0-4FED-AC96-21B3F583C40C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F414A0BF-2EB0-4FED-AC96-21B3F583C40C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F414A0BF-2EB0-4FED-AC96-21B3F583C40C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AA4FC24-F4A8-4D4E-A729-89751461EF16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AA4FC24-F4A8-4D4E-A729-89751461EF16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AA4FC24-F4A8-4D4E-A729-89751461EF16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AA4FC24-F4A8-4D4E-A729-89751461EF16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
