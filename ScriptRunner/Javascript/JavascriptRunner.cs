@@ -16,9 +16,11 @@ namespace ScriptRunner.Javascript
 
         public JavascriptRunner()
         {
-            engine.AddHostType("CommandAction", typeof(Meltdown.Core.Command.CommandAction));
-            engine.AddHostType("Command", typeof(Command));
-            engine.AddHostType("InteractiveObject", typeof(InteractiveObject));
+            var assembly = System.Reflection.Assembly.Load("MeltDown.Core");
+            foreach (var type in assembly.GetTypes())
+            {                
+                engine.AddHostType(type.Name, type);
+            }
         }
 
         public T Execute<T>(string script, IDictionary<string, object> parameters)

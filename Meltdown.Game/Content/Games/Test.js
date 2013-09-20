@@ -1,0 +1,1 @@
+﻿new Area("Strange Area", "A strange, mist-filled area. Is that Javascript I see?");
