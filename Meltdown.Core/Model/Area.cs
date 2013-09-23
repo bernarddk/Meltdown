@@ -29,6 +29,12 @@ namespace Meltdown.Core.Model
             exit.Exits[this.GetOppositeDirection(direction)] = this;
         }
 
+        // For convenience
+        public void AddObject(InteractiveObject obj)
+        {
+            this.Objects.Add(obj);
+        }
+
         private Direction GetOppositeDirection(Direction source)
         {
             switch (source)

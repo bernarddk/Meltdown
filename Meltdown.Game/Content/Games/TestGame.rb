@@ -4,4 +4,14 @@ factory = Area.new("Dirty Factory", "A dirty, disgusting, factory. Rats scurry e
 
 factory.AddTwoWayExit(Direction.North, start);
 
+box = InteractiveObject.new("Box", "A strange, black metal box. It radiates with some sort of power ...");
+box.AfterCommand('get', Proc.new {
+    puts "Rays of white light explore from the box, singing your hands. With a yelp, you drop the box. It clatters to the floor, smoking."    
+})
+
+lollipop = InteractiveObject.new("Lollipop", "Lollipop, lollipop, oh lolllllly lolly pop ...", ['get']);
+
+start.AddObject(box)
+start.AddObject(lollipop)
+
 start

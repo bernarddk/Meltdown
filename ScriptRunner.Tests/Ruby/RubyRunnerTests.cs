@@ -44,5 +44,18 @@ namespace ScriptRunner.Tests.Ruby
 
             Assert.IsTrue(command.Invoke(car).ToLower().Contains("you burn the car"));
         }
+
+        [Test]
+        public void AfterCommandActionsInvoke()
+        {
+            var kitchen = new Area("Kitchen", "Some sort of strange room with tiled floors. Is that food over there?");            
+            Runner.Instance.BindParameter("current_area", kitchen);
+
+            var potato = Runner.Instance.Execute<InteractiveObject>(@"Scripts\Ruby\AfterCommand.rb");
+            Assert.IsFalse(potato.Description.StartsWith("A steaming")); // changes on invoke
+            Assert.IsTrue(potato.ListensFor("Get"));
+            potato.ProcessCommand("Get");
+            Assert.IsTrue(potato.Description.StartsWith("A steaming"));
+        }
     }
 }

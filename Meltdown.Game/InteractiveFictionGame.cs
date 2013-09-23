@@ -115,14 +115,35 @@ namespace Meltdown.Game
 
                 if (text.Length == 1)
                 {
+                    // Not invoked on any object.
                     content = command.Invoke();
                 }
                 else if (text.Length > 1)
                 {
+                    // Invoked on an object. Does that object exist?
                     InteractiveObject first = (text.Length <= 1 ? null : this.currentArea.Objects.FirstOrDefault(o => o.Name.ToUpper() == text[1].Trim().ToUpper()));
-                    if (first != null && !first.Affordances.Any(f => command.Verbs.Any(v => v.ToUpper() == f.ToUpper())))
+                    if (first != null)
                     {
-                        Console.WriteLine(string.Format("You can't {0} the {1}", text[0], first.Name));
+                        // It exists. Check for custom AfterCommand handlers
+                        bool processed = false;
+                        if (first.ListensFor(command.Name))
+                        {
+                            first.ProcessCommand(command.Name);
+                            processed = true;
+                        }
+
+                        // Find out if it has the right affordance (eg. getting a get-able object)
+                        bool hasAffordance = first.Affordances.Any(f => command.Verbs.Any(v => v.ToUpper() == f.ToUpper()));
+                        if (hasAffordance)
+                        {
+                            content = command.Invoke(first);
+                        }
+                        else if (!processed)
+
+                        // No handlers, and no affordances.
+                        {
+                            Console.WriteLine(string.Format("You can't {0} the {1}", text[0], first.Name));
+                        }
                     }
                     else if (text.Length == 2)
                     {
@@ -224,11 +245,16 @@ namespace Meltdown.Game
 
                 if (currentArea.Exits.Any())
                 {
+                    Console.WriteLine("Exits:");
                     foreach (var exit in currentArea.Exits)
                     {
-                        Console.WriteLine(string.Format("{0} to {1}", exit.Key, exit.Value.Name));
+                        Console.WriteLine(string.Format("\t{0} to {1}", exit.Key, exit.Value.Name));
                     }
                     Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine("There are no exits.");
                 }
 
                 

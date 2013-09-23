@@ -48,5 +48,15 @@ namespace ScriptRunner.Tests.Javascript
             Assert.IsTrue(samosa.Affordances.Any(a => a.ToLower() == "eat"), "Need edible item for this test.");
             Assert.AreEqual("you eat the samosa.", command.Invoke(samosa).ToLower());
         }
+
+        [Test]
+        public void AfterCommandActionsInvoke()
+        {
+            var potato = Runner.Instance.Execute<InteractiveObject>(@"Scripts\Javascript\AfterCommand.js");
+            Assert.IsFalse(potato.Description.StartsWith("A steaming")); // changes on invoke
+            Assert.IsTrue(potato.ListensFor("get"));
+            potato.ProcessCommand("Get");
+            Assert.IsTrue(potato.Description.StartsWith("A steaming"));
+        }
     }
 }

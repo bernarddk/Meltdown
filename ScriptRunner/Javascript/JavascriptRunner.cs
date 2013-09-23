@@ -17,10 +17,16 @@ namespace ScriptRunner.Javascript
         public JavascriptRunner()
         {
             var assembly = System.Reflection.Assembly.Load("MeltDown.Core");
+
             foreach (var type in assembly.GetTypes())
             {                
                 engine.AddHostType(type.Name, type);
             }
+
+            // Used for anonymous functions
+            engine.AddHostType("Action", typeof(Action));
+            // JS doesn't support console.log (JS/V8/Chrome style)
+            engine.AddHostType("Console", typeof(Console));
         }
 
         public T Execute<T>(string script, IDictionary<string, object> parameters)
