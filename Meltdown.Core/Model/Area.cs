@@ -15,6 +15,9 @@ namespace Meltdown.Core.Model
         public IList<InteractiveObject> Objects { get; private set; }
         public IDictionary<Direction, Area> Exits { get; set; }
 
+        private Action onEnterAction = null;
+        private Action onExitAction = null;
+        
         public Area(string name, string description)
         {
             this.Name = name;
@@ -33,6 +36,32 @@ namespace Meltdown.Core.Model
         public void AddObject(InteractiveObject obj)
         {
             this.Objects.Add(obj);
+        }
+
+        public void OnEnter(Action e)
+        {
+            this.onEnterAction = e;
+        }
+
+        public void OnExit(Action e)
+        {
+            this.onExitAction = e;
+        }
+
+        internal void ExecuteOnEnter()
+        {
+            if (this.onEnterAction != null)
+            {
+                this.onEnterAction.Invoke();
+            }
+        }
+
+        internal void ExecuteOnExit()
+        {
+            if (this.onExitAction != null)
+            {
+                this.onExitAction.Invoke();
+            }
         }
 
         private Direction GetOppositeDirection(Direction source)

@@ -29,5 +29,37 @@ namespace MeltDown.Tests.Model
 
             Assert.AreEqual(expectedRoom, a.Exits[Direction.North]);
         }
+
+        [Test]
+        public void ExecuteOnEnterExecutesActionIfNotNull()
+        {
+            var pass = false;
+
+            var area = new Area("Test Area", "Grey floors and beige rooms. Eew.");
+            Assert.DoesNotThrow(() => { area.ExecuteOnEnter(); });
+            area.OnEnter(() =>
+            {
+                pass = true;
+            });
+
+            area.ExecuteOnEnter();
+            Assert.IsTrue(pass);
+        }
+
+        [Test]
+        public void ExecuteOnExitExecutesActionIfNotNull()
+        {
+            var pass = false;
+
+            var area = new Area("Test Area", "Grey floors and beige rooms. Eew.");
+            Assert.DoesNotThrow(() => { area.ExecuteOnExit(); });
+            area.OnExit(() =>
+            {
+                pass = true;
+            });
+
+            area.ExecuteOnExit();
+            Assert.IsTrue(pass);
+        }
     }
 }

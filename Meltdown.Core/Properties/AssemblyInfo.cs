@@ -36,4 +36,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 [assembly:InternalsVisibleTo("Meltdown.Game")]
+[assembly: InternalsVisibleTo("Meltdown.Tests")]
 [assembly: InternalsVisibleTo("ScriptRunner.Tests")]

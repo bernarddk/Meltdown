@@ -315,9 +315,11 @@ namespace Meltdown.Game
                 {
                     if (this.currentArea.Exits.ContainsKey(direction))
                     {
+                        this.currentArea.ExecuteOnExit();
                         this.currentArea = this.currentArea.Exits[direction];
                         Console.WriteLine(string.Format("You travel {0}.\n", name.ToLower()));
                         this.lookCommand.Invoke();
+                        this.currentArea.ExecuteOnEnter();
                         return "";
                     }
                     else

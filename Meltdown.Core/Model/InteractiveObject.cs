@@ -12,7 +12,7 @@ namespace Meltdown.Core.Model
         public string Name { get; private set; }
         public string Description { get; set; }
         public List<string> Affordances { get; private set; }
-        private IDictionary<string, List<Action>> commandListeners = new Dictionary<string, List<Action>>();
+        private IDictionary<string, Action> commandListeners = new Dictionary<string, Action>();
 
         public InteractiveObject(string name, string description)
             : this(name, description, new string[0])
@@ -38,12 +38,7 @@ namespace Meltdown.Core.Model
         }
 
         public void AfterCommand(string name, Action action) {
-            if (!this.commandListeners.ContainsKey(name))
-            {
-                this.commandListeners[name] = new List<Action>();
-            }
-
-            this.commandListeners[name].Add(action);
+            this.commandListeners[name] = action;
         }
 
         internal bool Can(string affordance)
@@ -65,7 +60,8 @@ namespace Meltdown.Core.Model
             IEnumerable<string> keys = this.commandListeners.Keys.Where(k => k.ToUpper() == commandName.ToUpper());
             foreach (string key in keys)
             {
-                foreach (var listener in this.commandListeners[key])
+                var listener = this.commandListeners[key];
+                if (listener != null)
                 {
                     listener.Invoke();
                 }
