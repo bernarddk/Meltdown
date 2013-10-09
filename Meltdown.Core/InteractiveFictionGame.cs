@@ -5,8 +5,8 @@ using System.Text;
 using Meltdown.Core.Model;
 using Meltdown.Core;
 using System.Text.RegularExpressions;
-using ScriptRunner.Core;
 using System.IO;
+using ScriptRunner.Core;
 
 namespace Meltdown.Game
 {

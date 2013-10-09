@@ -98,12 +98,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Meltdown.Core\Meltdown.Core.csproj">
-      <Project>{fc2c0902-857c-45ef-93c1-6141307d66c9}</Project>
-      <Name>Meltdown.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="v8-ia32.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

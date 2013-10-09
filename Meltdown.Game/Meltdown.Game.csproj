@@ -69,21 +69,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InteractiveFictionGame.cs" />
-    <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Content Include="..\ScriptRunner\lib\ClearScriptV8-32.dll">
-      <Link>ClearScriptV8-32.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\ScriptRunner\lib\ClearScriptV8-64.dll">
-      <Link>ClearScriptV8-64.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Content\Games\Test.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -96,10 +86,6 @@
     <ProjectReference Include="..\Meltdown.Core\Meltdown.Core.csproj">
       <Project>{fc2c0902-857c-45ef-93c1-6141307d66c9}</Project>
       <Name>Meltdown.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ScriptRunner\ScriptRunner.csproj">
-      <Project>{301ac278-a5be-49b4-a162-ef4963eda771}</Project>
-      <Name>ScriptRunner</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
