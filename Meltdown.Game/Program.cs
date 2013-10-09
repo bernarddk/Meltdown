@@ -10,7 +10,7 @@ namespace Meltdown.Game
     {
         static void Main(string[] args)
         {
-            new InteractiveFictionGame(@"Content\Content.json").Start();
+            new InteractiveFictionGame(true).Start();
         }
     }
 }
