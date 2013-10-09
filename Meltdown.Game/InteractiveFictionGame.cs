@@ -10,7 +10,7 @@ using System.IO;
 
 namespace Meltdown.Game
 {
-    class InteractiveFictionGame
+    internal class InteractiveFictionGame
     {
         public Area CurrentArea { get { return this.currentArea; } }
 
@@ -29,14 +29,27 @@ namespace Meltdown.Game
         private Command lookCommand;
         private bool isRunning = true;
 
-        public InteractiveFictionGame(string contentFile)
+        // For testing
+        internal InteractiveFictionGame()
         {
             this.SetupCommands();
 
             this.unknownCommand = knownCommands.First(c => c.Name.ToLower() == "unknown");
             this.lookCommand = knownCommands.First(c => c.Name.ToLower() == "look");
 
+            this.BindApiParameters();
+        }
+
+        public InteractiveFictionGame(string contentFile) : this()
+        {            
             this.LoadGame();
+        }
+
+        private void BindApiParameters()
+        {
+            Runner.Instance
+                .BindParameter("game", this)
+                .BindParameter("player", this.player);
         }
 
         private void LoadGame()
@@ -331,22 +344,22 @@ namespace Meltdown.Game
         }
 
         private void LoadScriptedCommands()
-        {            
-            string[] allFiles = System.IO.Directory.GetFiles(@"Content\Commands", "*.*");
-            IEnumerable<string> files = allFiles.Where(f => f.EndsWith(".rb") || f.EndsWith(".js"));
-
-            string basePath = AppDomain.CurrentDomain.BaseDirectory;
-
-            if (files.Any())
+        {
+            if (Directory.Exists(@"Content\Commands"))
             {
-                runner.BindParameter("game", this)
-                    .BindParameter("player", this.player);
+                string[] allFiles = System.IO.Directory.GetFiles(@"Content\Commands", "*.*");
+                IEnumerable<string> files = allFiles.Where(f => f.EndsWith(".rb") || f.EndsWith(".js"));
 
-                foreach (string script in files)
+                string basePath = AppDomain.CurrentDomain.BaseDirectory;
+
+                if (files.Any())
                 {
-                    string fullPath = string.Format("{0}{1}", basePath, script);
-                    var command = runner.Execute<Command>(fullPath);
-                    this.knownCommands.Add(command);
+                    foreach (string script in files)
+                    {
+                        string fullPath = string.Format("{0}{1}", basePath, script);
+                        var command = runner.Execute<Command>(fullPath);
+                        this.knownCommands.Add(command);
+                    }
                 }
             }
         }

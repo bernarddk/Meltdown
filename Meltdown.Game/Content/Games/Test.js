@@ -8,4 +8,7 @@ coal.AfterCommand("get", new Action(function () {
 
 area.AddObject(coal);
 
+Console.WriteLine("By the way, the player is " + player);
+Console.WriteLine(" ... And the game is " + game);
+
 area;

@@ -47,5 +47,24 @@ namespace ScriptRunner.Core
                 }
             }
         }
+
+        public T Execute<T>(string script, ScriptRunner.Core.ScriptHelper.ScriptType type)
+        {   
+            string extension = "";
+
+            switch (type)
+            {
+                case ScriptHelper.ScriptType.Javascript:
+                    extension = "js";
+                    break;
+                case ScriptHelper.ScriptType.Ruby:
+                    extension = "rb";
+                    break;
+                default:
+                    throw new ArgumentException("Not sure how to execute scripts of type " + type);
+            }
+            
+            return this.SupportedEngines[extension].Execute<T>(script, parameters);
+        }
     }
 }

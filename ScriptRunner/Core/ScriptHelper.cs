@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ScriptRunner.Core
 {
-    static class ScriptHelper
+    public static class ScriptHelper
     {
         public static List<string> ToStringList(dynamic source)
         {

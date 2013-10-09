@@ -17,4 +17,6 @@ lollipop = InteractiveObject.new("Lollipop", "Lollipop, lollipop, oh lolllllly l
 start.AddObject(box)
 start.AddObject(lollipop)
 
+puts "FYI: Player=#{player} and game=#{game}"
+
 start

@@ -54,7 +54,7 @@ namespace ScriptMediator
             }
         }
 
-        public static Boolean IsArray(dynamic source) {
+        public static bool IsArray(dynamic source) {
             // A poor man's language independence
             ScriptType type = DetectScriptType(source);
             switch (type) {
